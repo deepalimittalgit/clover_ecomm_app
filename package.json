@@ -2,6 +2,7 @@
   "name": "clover-ecomm-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080/",
   "dependencies": {
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
@@ -24,7 +25,8 @@
     "eject": "react-scripts eject",
     "server": "node server.js",
     "client": "react-scripts start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "serverstart": "npm install && npm run build && npm run start"
   },
   "eslintConfig": {
     "extends": "react-app"

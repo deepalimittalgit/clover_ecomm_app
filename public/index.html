@@ -5,6 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://checkout.sandbox.dev.clover.com/sdk.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -29,6 +30,9 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      window.clover = new Clover('fc9e4d48df0d110f12812a5190a4f424');
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

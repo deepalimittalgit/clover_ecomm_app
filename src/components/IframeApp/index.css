@@ -1,0 +1,96 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #fff;
+  #min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.FormGroup {
+  margin: 25px 20px;
+  padding: 10px;
+  border-style: none;
+  background-color: #280;
+  will-change: opacity, transform;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+  border-radius: 4px;
+  width: 550px;
+}
+
+.FormRow {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.MuiFormControl-root {
+  background-color: #fff;
+  border-radius: 4px;
+  margin: 0 8px !important;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+  color: #f50057;
+}
+
+
+.field {
+  height: 50px;
+  padding: 0;
+  margin: 0 5px;
+  width: 100%;
+}
+.form-container{
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+  width: 450px;
+  height: 281px;
+  margin: 38px;
+  padding: 10px;
+  font-size: 15px;
+}
+/* -- */
+
+input {
+  border: 0;
+  outline: none;
+}
+
+#card-errors {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #dc3545!important
+}
+.MuiButton-root {
+  margin: 20px !important;
+}
