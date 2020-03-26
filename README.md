@@ -11,7 +11,7 @@ This project was built to demonstrate Clover's E-commerce APIs using React app.
     3. npm run nuke
     4. npm run dev
 
-Note - ACCESS_TOKEN and API_KEY will be provided after signing up at clover. More info [here](https://container-registry-147718.appspot.com/).
+Note - ACCESS_TOKEN and API_KEY will be provided after signing up at clover. More info [here](https://sandbox.dev.clover.com/developer-home/create-account).
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
