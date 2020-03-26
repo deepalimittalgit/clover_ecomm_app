@@ -1,20 +1,20 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.blackColor{
+  background-color: #000;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.mainColor {
+  background-color: #280;
+}
+#card-errors {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #dc3545!important
 }
 
 .App-header {
-  background-color: #fff;
+  background-color: #280;
   #min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,32 +24,174 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/*//*/
+#main-body-container {
+  -webkit-box-pack: center !important;
+  -webkit-box-direction: normal !important;
+  -webkit-box-orient: horizontal !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  background: #280 !important;
+  color: #fff !important;
+  font-size: 30px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.FormGroup {
-  margin: 25px 20px;
+.introduction{
+  margin: 20px;
   padding: 10px;
-  border-style: none;
-  background-color: #280;
-  will-change: opacity, transform;
-  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
-  border-radius: 4px;
+}
+.title{
+  text-align: left;
+  font-size: 32px;
+  font-weight: bold;
+}
+.introduction ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-left: 20px;
+  text-align: left;
+}
+.introduction ul li {
+  list-style: initial;
+  font-size: 22px;
+  padding-bottom: 10px;
+}
+.introduction ul li a {
+  color: white;
+  font-size: 22px;
+  font-style: italic;
+}
+.introduction ul li a:hover {
+  color: white;
+  font-size: 24px;
+  font-style: normal;
 }
 
+.introduction ul li a:visited {
+  color: white;
+  font-size: 22px;
+  font-style: italic;
+}
+
+.leftSection{
+  display: flex !important;
+  flex: 1 !important;
+  padding: 2% 0 !important;
+}
+
+.rightSection {
+  display: flex !important;
+  flex: 1 !important;
+  justify-content: center !important;
+  padding: 2% 0 !important;
+}
+#page-container{
+  background-color: #280;
+  color: #fff;
+  height: 100vh;
+}
+
+/*Top Header container */
+#top-header-container{
+  border-bottom: 1px solid;
+  margin: 0 20px;
+  height: 7%;
+}
+h4.MuiTypography-root {
+  margin: 10px !important;
+  text-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+}
+/*Top Header container */
+
+.FormGroup {
+  margin: 0;
+  padding: 5px 0;
+  border-style: none;
+  will-change: opacity, transform;
+}
 .FormRow {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
   align-items: center;
   margin: 15px;
+}
+/*box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;*/
+.App Form{
+  margin: 30px;
+  padding: 20px;
+  background-color: rgba(0,0,0,.2);
+  box-shadow:
+          0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+          0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+          0 12.5px 10px rgba(0, 0, 0, 0.06),
+          0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+          0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+          0 100px 80px rgba(0, 0, 0, 0.12)
+;
+}
+
+.MuiFormControl-root {
+  background-color: #fff;
+  border-radius: 4px;
+  margin: 0 8px !important;
+}
+
+.field {
+  height: 50px;
+  padding: 0;
+  margin: 0 5px;
+  width: 100%;
+}
+
+.MuiButton-root {
+  margin: 20px !important;
+}
+
+
+
+
+/* output container */
+#output-container{
+  padding: 0;
+  margin: 0;
+  color: #3ce005;
+  font-size: 12px;
+  font-family: sans-serif;
+  display: flex;
+}
+.MuiPaper-elevation3 {
+  height: 100vh;
+  margin: 20px;
+  background-color: #000!important;
+  color: #51ea1e !important;
+  text-align: left;
+  font-size: 20px;
+}
+.MuiPaper-elevation3 p{
+  padding-bottom: 0;
+  display: flex;
+  font-size: 18px;
+  font-weight: lighter;
+  color: #0eff00;
+  margin: 16px !important;
+}
+/* output container */
+
+
+/*divider*/
+.MuiDivider-root {
+  border: none;
+  height: 2px !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+  background-color: white !important;
+  border-top: 1px solid #fff !important;
+}
+#console-header h2{
+  margin: 0 !important;
+  padding: 20px 0;
+  background-color: #000;
 }

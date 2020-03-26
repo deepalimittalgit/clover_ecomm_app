@@ -7,6 +7,7 @@ const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const API_KEY = process.env.API_KEY;
 const ENVIRONMENT = process.env.ENVIRONMENT;
 
+console.log(API_KEY + "ACCESSTOKEN-" + ACCESS_TOKEN);
 const cloverInst = new Clover(ACCESS_TOKEN, {
     environment: ENVIRONMENT,
 });
@@ -14,6 +15,8 @@ const cloverInst = new Clover(ACCESS_TOKEN, {
 // define the routes
 router.post("/createToken", (req, res) => {
     try {
+        console.log("card = ", req.body.card);
+        console.log("apiKey = ", API_KEY);
         cloverInst.tokens.create({
             card: req.body.card,
             'apiKey': API_KEY,
@@ -32,7 +35,7 @@ router.post("/createCharge", (req, res) => {
     try {
         cloverInst.charges.create({
             source: req.body.source,
-            amount: 100,
+            amount: 2500,
             currency: 'usd',
             capture: 'true',
         }).then((chargeResponse) => {

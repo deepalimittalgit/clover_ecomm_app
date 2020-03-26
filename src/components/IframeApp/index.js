@@ -1,10 +1,6 @@
 import React, { Component} from 'react';
 import './index.css';
-import {
-    Button,
-    Paper,
-    Divider,
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 const styles = {
     body: {
@@ -27,12 +23,8 @@ const styles = {
 class IframeApp extends Component {
     constructor(props) {
         super(props);
-        debugger;
         const elements = window.clover.elements();
 
-        this.state = {
-            output: [],
-        };
         this.state = {
             token: null,
             output: [],
@@ -78,11 +70,11 @@ class IframeApp extends Component {
         this.cardPostalCode.addEventListener('change', (event) => {
             displayError.textContent = event.error ? event.error.message : '';
         });
+        const cloverFooter = document.getElementsByClassName('clover-footer')[0];
+        if (cloverFooter){
+            cloverFooter.style.display = "none";
+        }
     }
-
-    writeOutput(message) {
-        this.setState({ output: [...this.state.output, message]});
-    };
 
     generateMask(cardLast4) {
         return cardLast4.padStart(16, '*');
@@ -91,8 +83,8 @@ class IframeApp extends Component {
     callCreateChargeAPI = async (response) => {
         const source = response.token;
         const card = response.card;
-
-        this.writeOutput(`Charging Card '${this.generateMask(card.last4)}' for $25.00...`);
+        debugger;
+        this.props.outputHandler(`Charging Card '${this.generateMask(card.last4)}' for $25.00...`);
 
         // const source = this.state.showUserInfo ? this.state.customerId : this.state.token;
         const data = JSON.stringify({ source: source });
@@ -109,87 +101,70 @@ class IframeApp extends Component {
         if (chargeResponse.status !== 200) {
             throw Error(resp.message);
         }
-        this.writeOutput(`Payment Success, Confirmation # is - ${resp.id}`);
+        this.props.outputHandler(`Payment Success, Confirmation # is - ${resp.id}`);
         return resp;
     };
 
-    clearOutput() {
-        this.setState({output: []});
-        const outputConsole = document.getElementById('output-area');
-        outputConsole.innerHTML= "";
-    }
+    // clearOutput() {
+    //     this.setState({output: []});
+    //     const outputConsole = document.getElementById('output-area');
+    //     outputConsole.innerHTML= "";
+    // }
     handleFormSubmit(event) {
+        debugger;
         event.preventDefault();
-        this.clearOutput();
+        this.props.outputHandler(null, true);
+
         const displayError = document.getElementById('card-errors');
 
-        this.writeOutput('Genarating Token (Using Encrypted Pan) ...');
+        this.props.outputHandler('Genarating Token (Using Encrypted Pan) ...');
 
         window.clover.createToken()
             .then((result) => {
                 if (result.errors) {
+                    debugger;
                     Object.values(result.errors).forEach(function (value) {
                         displayError.textContent = value;
                     });
                 } else {
-                    this.writeOutput(`Token Id is -> ${result.token}`);
+                    debugger;
+                    this.props.outputHandler(`Token Id is -> ${result.token}`);
                 }
                 return result;
             })
             .then((resp) => this.callCreateChargeAPI(resp))
             .catch(err => console.log(err));
     }
-
     componentWillUnmount(){
         const cloverFooter = document.getElementsByClassName('clover-footer')[0];
-        cloverFooter.parentNode.removeChild(cloverFooter);
+        cloverFooter && cloverFooter.parentNode.removeChild(cloverFooter);
     }
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <div className="flex justify-center mt-16">
-                        <div id="card-errors" role="alert"></div>
-                                {/*<div className="FormRow">*/}
-                                {/*</div>*/}
-                                {/*<div className="FormRow">*/}
-                                {/*    <TextField id="card-date" className="field third-width" label="Expiration (MM/YYYY)" variant="filled" onChange={this.handleChange} defaultValue={this.state.card_expiry} />*/}
-                                {/*    <TextField id="card-cvv" className="field third-width" label="CVV" variant="filled" onChange={this.handleChange} value={this.state.card.cvv} />*/}
-                                {/*</div>*/}
-                                {/*<FormControlLabel*/}
-                                {/*    control={<Checkbox color="secondary" name="saveCard" value="yes" onChange={this.handleCheckbox} />}*/}
-                                {/*    label="Save Card on File for next time"*/}
-                                {/*/>*/}
-                        <form id="payment-form" onSubmit={this.handleFormSubmit} clsss="form-container">
-                            <fieldset className="FormGroup">
-                                <div className="FormRow">
-                                    <div id="card-number" className="field card-number"/>
-                                </div>
+            <div className="App" id="iframeapp">
+                <div id="card-errors" role="alert"/>
+                <div className="flex justify-center mt-16">
+                    <form id="payment-form" noValidate autoComplete="off">
+                        <fieldset className="FormGroup">
+                            <div className="FormRow">
+                                <div id="card-number" className="field card-number"/>
+                            </div>
 
-                                <div className="FormRow">
-                                    <div id="card-date" className="field third-width"/>
-                                    <div id="card-cvv" className="field third-width"/>
-                                    <div id="card-postal-code" className="field third-width"/>
-                                </div>
-                            </fieldset>
-                            <Divider variant="middle" />
-                            <Button type="button" variant="contained" size="large" onClick={() => this.props.backHandler()}>
-                                Back
-                            </Button>
-                            <Button type="submit" variant="contained" color="primary" size="large">
-                                Pay $25.00
-                            </Button>
-                        </form>
-                    </div>
-                    <Divider variant="middle" />
-                    <div className="flex justify-center mt-16">
-                        <Paper elevation={3} id="output-area">
-                            {this.state.output.map((item, key) =>
-                                <p key={key}>{item}</p>
-                            )}
-                        </Paper>
-                    </div>
-                </header>
+                            <div className="FormRow">
+                                <div id="card-date" className="field third-width"/>
+                                <div id="card-cvv" className="field third-width"/>
+                                <div id="card-postal-code" className="field third-width"/>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <Button type="button" variant="contained" size="large" onClick={() => this.props.backHandler()}>
+                        Back
+                    </Button>
+                    <Button variant="contained" color="primary" size="large" onClick={this.handleFormSubmit}>
+                        Pay $25.00
+                    </Button>
+                </div>
             </div>
         );
     }

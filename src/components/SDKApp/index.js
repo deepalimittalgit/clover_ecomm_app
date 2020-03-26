@@ -4,8 +4,6 @@ import {
     Button,
     TextField,
     FormControlLabel,
-    Paper,
-    Divider,
     Checkbox
 } from '@material-ui/core';
 
@@ -15,7 +13,6 @@ class SDKApp extends Component {
 
         this.state = {
             token: null,
-            output: [],
             showUserInfo: false,
             customerId: '',
             user: {
@@ -26,6 +23,7 @@ class SDKApp extends Component {
             card_expiry: '04/2022',
             card: {
                 number: '4005562231212123',
+                brand: 'VISA',
                 cvv: '123',
                 exp_month: '04',
                 exp_year: '2022',
@@ -37,10 +35,6 @@ class SDKApp extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    writeOutput(message){
-        this.setState({ output: [...this.state.output, message]});
-    }
-
     generateMask(cardNumber){
         const last4Digits = cardNumber.slice(-4);
 
@@ -48,7 +42,7 @@ class SDKApp extends Component {
     }
 
     callCreateTokenAPI = async () => {
-        this.writeOutput('Genarating Token ...');
+        this.props.outputHandler('Genarating Token ...');
 
         const data = JSON.stringify({ card: this.state.card });
         const response = await fetch('/api/createToken', {
@@ -63,7 +57,8 @@ class SDKApp extends Component {
         if (response.status !== 200) {
             throw Error(resp.message);
         }
-        this.writeOutput(`Token Id is - ${resp.id}`);
+
+        this.props.outputHandler(`Token Id is - ${resp.id}`);
         this.setState({
             token: resp.id,
         });
@@ -71,7 +66,7 @@ class SDKApp extends Component {
     };
 
     callCreateCustomerAPI = async () => {
-        this.writeOutput(`Saving Card on File '${this.generateMask(this.state.card.number)}' for '${this.state.user.firstName} ${this.state.user.lastName}'...`);
+        this.props.outputHandler(`Saving Card on File '${this.generateMask(this.state.card.number)}' for '${this.state.user.firstName} ${this.state.user.lastName}'...`);
 
         const data = JSON.stringify({
             source: this.state.token,
@@ -90,14 +85,14 @@ class SDKApp extends Component {
             throw Error(resp.message);
         }
         let userId = resp.id;
-        this.writeOutput(`Card Saved Successfully, Confirmation number - ${userId}`);
+        this.props.outputHandler(`Card Saved Successfully, Confirmation number - ${userId}`);
         this.setState({customerId: userId});
 
         return resp;
     };
 
     callCreateChargeAPI = async () => {
-        this.writeOutput(`Charging Card '${this.generateMask(this.state.card.number)}' for $25.00...`);
+        this.props.outputHandler(`Charging Card '${this.generateMask(this.state.card.number)}' for $25.00...`);
 
         const source = this.state.showUserInfo ? this.state.customerId : this.state.token;
         const data = JSON.stringify({ source: source });
@@ -114,19 +109,14 @@ class SDKApp extends Component {
         if (response.status !== 200) {
             throw Error(resp.message);
         }
-        this.writeOutput(`Payment Success, Confirmation # is - ${resp.id}`);
+
+        this.props.outputHandler(`Payment Success, Confirmation # is - ${resp.id}`);
         return resp;
     };
 
-    clearOutput() {
-        this.setState({output: []});
-        const outputConsole = document.getElementById('output-area');
-        outputConsole.innerHTML= "";
-    }
-
     buttonHandler = e => {
         e.preventDefault();
-        this.clearOutput();
+        this.props.outputHandler('', true);
 
         this.callCreateTokenAPI()
             .then(() => {
@@ -222,55 +212,42 @@ class SDKApp extends Component {
     render() {
         return (
             <div className="App" id="sdkapp">
-                <header className="App-header">
-                    <div className="flex justify-center mt-16">
-                        <div id="card-errors" role="alert"></div>
-                        <form id="payment-form" noValidate autoComplete="off">
+                <div id="card-errors" role="alert"/>
+                <div className="flex justify-center mt-16">
+                    <form id="payment-form" noValidate autoComplete="off">
+                        <fieldset className="FormGroup">
+                            <div className="FormRow">
+                                <TextField id="card-number" className="field card-number" label="Card Number" fullWidth variant="filled" onChange={this.handleChange} value={this.state.card.number} />
+                            </div>
+                            <div className="FormRow">
+                                <TextField id="card-date" className="field third-width" label="MM/YYYY" variant="filled" onChange={this.handleChange} defaultValue={this.state.card_expiry} />
+                                <TextField id="card-cvv" className="field third-width" label="CVV" variant="filled" onChange={this.handleChange} defaultValue={this.state.card.cvv} />
+                                <TextField id="address-zip" className="field third-width" label="Postal code" variant="filled" onChange={this.handleChange} defaultValue={this.state.card.address_zip} />
+                            </div>
+                            <FormControlLabel
+                                control={<Checkbox color="primary" name="saveCard" value="yes" onChange={this.handleCheckbox} />}
+                                label="Save Card on File for next time"
+                            />
+                        </fieldset>
+                        {this.state.showUserInfo && (
                             <fieldset className="FormGroup">
                                 <div className="FormRow">
-                                    <TextField id="card-number" size="16" className="field card-number" label="Card Number" fullWidth variant="filled" onChange={this.handleChange} value={this.state.card.number} />
+                                    <TextField id="user-firstname" className="field third-width" label="First Name" variant="filled" onChange={this.handleChange} defaultValue={this.state.user.firstName} />
+                                    <TextField id="user-lastname" className="field third-width" label="Last Name" variant="filled"  onChange={this.handleChange} defaultValue={this.state.user.lastName} />
                                 </div>
                                 <div className="FormRow">
-                                    <TextField id="card-date" className="field third-width" label="MM/YYYY" variant="filled" onChange={this.handleChange} defaultValue={this.state.card_expiry} />
-                                    <TextField id="card-cvv" className="field third-width" label="CVV" variant="filled" onChange={this.handleChange} defaultValue={this.state.card.cvv} />
-                                    <TextField id="address-zip" className="field third-width" label="Postal code" variant="filled" onChange={this.handleChange} defaultValue={this.state.card.address_zip} />
+                                    <TextField id="user-email" className="field card-number" label="Email" fullWidth variant="filled" onChange={this.handleChange} defaultValue={this.state.user.email} />
                                 </div>
-                                <FormControlLabel
-                                    control={<Checkbox color="primary" name="saveCard" value="yes" onChange={this.handleCheckbox} />}
-                                    label="Save Card on File for next time"
-                                />
                             </fieldset>
-                        </form>
-
-                        {this.state.showUserInfo && (
-                            <form id="user-Info" noValidate autoComplete="off" >
-                                <fieldset className="FormGroup">
-                                    <div className="FormRow">
-                                        <TextField id="user-firstname" className="field third-width" label="First Name" variant="filled" onChange={this.handleChange} defaultValue={this.state.user.firstName} />
-                                        <TextField id="user-lastname" className="field third-width" label="Last Name" variant="filled"  onChange={this.handleChange} defaultValue={this.state.user.lastName} />
-                                    </div>
-                                    <div className="FormRow">
-                                        <TextField id="user-email" className="field card-number" label="Email" fullWidth variant="filled" onChange={this.handleChange} defaultValue={this.state.user.email} />
-                                    </div>
-                                </fieldset>
-                            </form>
                         )}
-                        <Button type="button" variant="contained" size="large" onClick={() => this.props.backHandler()}>
-                            Back
-                        </Button>
-                        <Button variant="contained" color="primary" size="large" onClick={this.buttonHandler}>
-                            Pay $25.00
-                        </Button>
-                    </div>
-                    <Divider variant="middle" />
-                    <div className="flex justify-center mt-16">
-                        <Paper elevation={3} id="output-area">
-                            {this.state.output.map((item, key) =>
-                                <p key={key}>{item}</p>
-                            )}
-                        </Paper>
-                    </div>
-                </header>
+                    </form>
+                    <Button type="button" variant="contained" size="large" onClick={() => this.props.backHandler()}>
+                        Back
+                    </Button>
+                    <Button variant="contained" color="primary" size="large" onClick={this.buttonHandler}>
+                        Pay $25.00
+                    </Button>
+                </div>
             </div>
         );
     }
