@@ -9,11 +9,6 @@ const port = 8080;
 
 const routes = require("./cloverRouter");
 
-router.use(function timeLog (req, res, next) {
-    console.log('Time: ', Date.now());
-    next()
-});
-
 /* parse application/json*/
 server.use(bodyParser.json());
 
