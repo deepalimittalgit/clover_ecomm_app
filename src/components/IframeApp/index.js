@@ -83,7 +83,6 @@ class IframeApp extends Component {
     callCreateChargeAPI = async (response) => {
         const source = response.token;
         const card = response.card;
-        debugger;
         this.props.outputHandler(`Charging Card '${this.generateMask(card.last4)}' for $25.00...`);
 
         // const source = this.state.showUserInfo ? this.state.customerId : this.state.token;
@@ -111,7 +110,6 @@ class IframeApp extends Component {
     //     outputConsole.innerHTML= "";
     // }
     handleFormSubmit(event) {
-        debugger;
         event.preventDefault();
         this.props.outputHandler(null, true);
 
@@ -122,12 +120,10 @@ class IframeApp extends Component {
         window.clover.createToken()
             .then((result) => {
                 if (result.errors) {
-                    debugger;
                     Object.values(result.errors).forEach(function (value) {
                         displayError.textContent = value;
                     });
                 } else {
-                    debugger;
                     this.props.outputHandler(`Token Id is -> ${result.token}`);
                 }
                 return result;

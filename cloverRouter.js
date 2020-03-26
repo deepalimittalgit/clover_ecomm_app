@@ -20,7 +20,6 @@ router.post("/createToken", (req, res) => {
         }).then((tokenObj) => {
             res.send(tokenObj);
         }).catch(err => {
-            debugger;
             console.log('Getting error type in Token Test - ', err);
         });
     } catch (err) {
@@ -38,7 +37,6 @@ router.post("/createCharge", (req, res) => {
         }).then((chargeResponse) => {
             res.send(chargeResponse);
         }).catch(err => {
-            debugger;
             console.log('Getting error in Charge API - ', err);
         });
     } catch (err) {

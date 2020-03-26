@@ -9,56 +9,6 @@ export const generateMask = (cardLast4) => cardLast4.padStart(16, '*');
 //     return cardLast4.padStart(16, '*');
 // };
 
-// export const callCreateTokenAPI = async () => {
-//     this.writeOutput('Genarating Token ...');
-//
-//     const data = JSON.stringify({ card: this.state.card });
-//     debugger;
-//     const response = await fetch('/api/createToken', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: data,
-//     });
-//
-//     const resp = await response.json();
-//     if (response.status !== 200) {
-//         throw Error(resp.message);
-//     }
-//     this.writeOutput(`Token Id is - ${resp.id}`);
-//     this.setState({
-//         token: resp.id,
-//     });
-//     return resp;
-// };
-//
-// export const callCreateCustomerAPI = async () => {
-//     this.writeOutput(`Saving Card on File '${this.generateMask(this.state.card.number)}' for '${this.state.user.firstName} ${this.state.user.lastName}'...`);
-//
-//     const data = JSON.stringify({
-//         source: this.state.token,
-//         email: this.state.user.email
-//     });
-//     const response = await fetch('/api/createCustomer', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: data,
-//     });
-//
-//     const resp = await response.json();
-//     if (response.status !== 200) {
-//         throw Error(resp.message);
-//     }
-//     let userId = resp.id;
-//     this.writeOutput(`Card Saved Successfully, Confirmation number - ${userId}`);
-//     this.setState({customerId: userId});
-//
-//     return resp;
-// };
-
 export const callCreateChargeAPI = async (response) => {
     const source = response.token;
     const card = response.card;
